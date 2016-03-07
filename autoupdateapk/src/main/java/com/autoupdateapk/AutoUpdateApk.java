@@ -482,11 +482,11 @@ public class AutoUpdateApk extends Observable {
             notifyObservers(AUTOUPDATE_HAVE_UPDATE);
 
             // raise notification
-            Notification notification = new Notification(appIcon, appName
+            Notification notification = new Notification(appIcon, appName + " "
                     + getString(R.string.app_update_suffix), System.currentTimeMillis());
             notification.flags |= NOTIFICATION_FLAGS;
 
-            CharSequence contentTitle = appName + getString(R.string.update_available);
+            CharSequence contentTitle = appName + " " + getString(R.string.update_available);
             CharSequence contentText = getString(R.string.select_to_install);
             Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
             notificationIntent.setDataAndType(
