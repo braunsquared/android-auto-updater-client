@@ -13,3 +13,5 @@ bin
 gen
 local.properties
 .apt_generated
+build/
+.gradle/
