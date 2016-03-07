@@ -483,11 +483,11 @@ public class AutoUpdateApk extends Observable {
 
             // raise notification
             Notification notification = new Notification(appIcon, appName
-                    + " update", System.currentTimeMillis());
+                    + getString(R.string.app_update_suffix), System.currentTimeMillis());
             notification.flags |= NOTIFICATION_FLAGS;
 
-            CharSequence contentTitle = appName + " update available";
-            CharSequence contentText = "Select to install";
+            CharSequence contentTitle = appName + getString(R.string.update_available);
+            CharSequence contentText = getString(R.string.select_to_install);
             Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
             notificationIntent.setDataAndType(
                     Uri.parse("file://"
@@ -502,6 +502,10 @@ public class AutoUpdateApk extends Observable {
         } else {
             nm.cancel(NOTIFICATION_ID);
         }
+    }
+
+    private String getString(int id) {
+        return context.getResources().getString(id);
     }
 
     private String MD5Hex(String filename) {

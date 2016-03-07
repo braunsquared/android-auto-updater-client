@@ -17,7 +17,7 @@ ext {
 
     libraryDescription = 'auto update apk'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
