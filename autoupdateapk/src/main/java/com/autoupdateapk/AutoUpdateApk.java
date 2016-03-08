@@ -286,27 +286,30 @@ public class AutoUpdateApk extends Observable {
         } else {
             Log_w(TAG, "unable to find application label");
         }
-        if (new File(appinfo.sourceDir).lastModified() > preferences.getLong(
-                MD5_TIME, 0)) {
-            preferences.edit().putString(MD5_KEY, MD5Hex(appinfo.sourceDir))
-                    .commit();
-            preferences.edit().putLong(MD5_TIME, System.currentTimeMillis())
-                    .commit();
-
-            String update_file = preferences.getString(UPDATE_FILE, "");
-            if (update_file.length() > 0) {
-                if (new File(context.getFilesDir().getAbsolutePath() + "/"
-                        + update_file).delete()) {
-                    preferences.edit().remove(UPDATE_FILE)
-                            .remove(SILENT_FAILED).commit();
-                }
-            }
-        }
+        removeOldPackage(appinfo);
         raise_notification();
 
         if (haveInternetPermissions()) {
             context.registerReceiver(connectivity_receiver, new IntentFilter(
                     ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    private void removeOldPackage(ApplicationInfo appinfo) {
+        if (new File(appinfo.sourceDir).lastModified() > preferences.getLong(MD5_TIME, 0)) {
+            preferences.edit().putString(MD5_KEY, MD5Hex(appinfo.sourceDir)).commit();
+            preferences.edit().putLong(MD5_TIME, System.currentTimeMillis()).commit();
+
+            String update_file = preferences.getString(UPDATE_FILE, "");
+            if (update_file.length() > 0) {
+                boolean isDeletedSuccessfule = new File(context.getFilesDir().getAbsolutePath() + "/" + update_file).delete();
+                if (isDeletedSuccessfule) {
+                    preferences.edit()
+                            .remove(UPDATE_FILE)
+                            .remove(SILENT_FAILED)
+                            .remove(DOWNLOADED_LATEST_VERSIONCODE).commit();
+                }
+            }
         }
     }
 
